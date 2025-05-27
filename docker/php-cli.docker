@@ -1,0 +1,22 @@
+FROM php:8.4-cli
+
+
+RUN apt-get update && apt-get install -y \
+    libmcrypt-dev mariadb-client cron wget unzip curl \
+    && docker-php-ext-install pdo_mysql pcntl exif \
+    && docker-php-ext-enable exif
+
+# Установка Composer
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+# Создание пользователя с тем же UID/GID, что на хосте
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g $GID ghgroup \
+    && useradd -u $UID -g $GID -m -s /bin/bash gh122
+
+USER gh122
+
+WORKDIR /var/www
