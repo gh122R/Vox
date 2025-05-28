@@ -3,20 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class ComplaintController extends Controller
 {
     public function index()
     {
-        $complaints = Complaint::all();
+        $complaints = Complaint::where('user_id', Auth::id())->get();
         return view('complaint.index', compact('complaints'));
     }
 
     public function create()
     {
-        return view('complaints.create');
+        return view('complaint.create');
     }
 
     public function store(Request $request)
@@ -26,17 +28,17 @@ class ComplaintController extends Controller
             'anonymous'   => ['boolean'],
             'attachments' => ['array'],
         ]));
-        return redirect('/myComplaints');
+        return redirect()->route('user.complaint');
     }
 
     public function show(Complaint $complaint)
     {
-        return view('complaints.show', compact('complaint'));
+        return view('complaint.show', compact('complaint'));
     }
 
     public function edit(Complaint $complaint)
     {
-        return view('complaints.edit', compact('complaint'));
+        return view('complaint.edit', compact('complaint'));
     }
 
     public function update(Request $request, Complaint $complaint)

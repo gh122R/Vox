@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Department;
-use App\Models\ProblemTypes;
+use App\Models\ProblemType;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -15,11 +15,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('complaints', function (Blueprint $table) {
+        Schema::create('complaint', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Status::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(ProblemTypes::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(ProblemType::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Department::class)->constrained()->cascadeOnDelete();
             $table->text('description');
             $table->text('resolution')->nullable();
@@ -42,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('complaints');
+        Schema::dropIfExists('complaint');
     }
 };

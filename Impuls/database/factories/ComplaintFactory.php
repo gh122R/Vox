@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Department;
-use App\Models\ProblemTypes;
+use App\Models\ProblemType;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,7 +23,7 @@ class ComplaintFactory extends Factory
         return [
             'user_id' => User::factory(),
             'status_id' => Status::factory(),
-            'problem_types_id' => ProblemTypes::factory(),
+            'problem_type_id' => ProblemType::factory(),
             'department_id' => Department::factory(),
             'description' => fake()->text(),
             'resolution' => fake()->randomElement([null, fake()->text]),

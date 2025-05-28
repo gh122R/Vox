@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,10 +22,10 @@ class RegistrationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'department_id' => Department::factory()->create()->id,
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
-
         $this->assertAuthenticated();
         $response->assertRedirect(route('dashboard', absolute: false));
     }

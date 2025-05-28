@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Complaint;
 use App\Models\Department;
-use App\Models\ProblemTypes;
+use App\Models\ProblemType;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         $roles = Role::factory(4)->create();
         Status::factory(4)->create();
-        ProblemTypes::factory(4)->create();
+        ProblemType::factory(4)->create();
         Department::factory(10)->create();
         User::factory(10)->create()->each(function ($user) use ($roles) {
             $user->roles()->attach(

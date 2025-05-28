@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProblemTypes;
+use App\Models\ProblemType;
 use Illuminate\Http\Request;
 
-class ProblemTypesController extends Controller
+class ProblemTypeController extends Controller
 {
     public function index()
     {
-        $problemTypes = ProblemTypes::all();
+        $problemTypes = ProblemType::all();
         return view('problemTypes.index', compact('problemTypes'));
     }
 
@@ -20,24 +20,24 @@ class ProblemTypesController extends Controller
 
     public function store(Request $request)
     {
-        $problem = ProblemTypes::create($request->validate([
+        $problem = ProblemType::create($request->validate([
             'name' => ['required', 'string', 'max:155'],
         ]));
 
         return redirect('/problem-type/' . $problem->id);
     }
 
-    public function show(ProblemTypes $problem)
+    public function show(ProblemType $problem)
     {
         return view('problemTypes.show', compact('problem'));
     }
 
-    public function edit(ProblemTypes $problemTypes)
+    public function edit(ProblemType $problemTypes)
     {
         return view('problemTypes.edit', compact('problemTypes'));
     }
 
-    public function update(Request $request, ProblemTypes $problem)
+    public function update(Request $request, ProblemType $problem)
     {
         $problem->update($request->validate([
             'name' => ['required', 'string', 'max:155'],
@@ -45,7 +45,7 @@ class ProblemTypesController extends Controller
         return redirect('/problem-type/' . $problem->id);
     }
 
-    public function destroy(ProblemTypes $problem)
+    public function destroy(ProblemType $problem)
     {
         $problem->delete();
         return redirect('/problem-types');

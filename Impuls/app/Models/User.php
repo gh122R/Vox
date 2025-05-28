@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'department_id',
         'password',
     ];
 
@@ -56,5 +57,10 @@ class User extends Authenticatable
     public function roles(): belongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_role');
+    }
+
+    public function hasRole($name): bool
+    {
+        return $this->roles->contains('name',$name);
     }
 }

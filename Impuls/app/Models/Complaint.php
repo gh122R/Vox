@@ -23,7 +23,7 @@ class Complaint extends Model
 
     public function problemType(): BelongsTo
     {
-        return $this->belongsTo(ProblemTypes::class);
+        return $this->belongsTo(ProblemType::class);
     }
 
     public function user(): BelongsTo
