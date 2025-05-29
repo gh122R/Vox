@@ -15,4 +15,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer global require laravel/installer
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
-WORKDIR /var/www/Impuls
+WORKDIR /var/www/Vox

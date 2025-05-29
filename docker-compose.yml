@@ -44,7 +44,7 @@ services:
       - COMPOSER_CACHE_DIR=/var/www/.composer/cache
     depends_on:
       - mysql
-    working_dir: /var/www/Impuls
+    working_dir: /var/www/Vox
     user: "${UID}:${GID}"
     tty: true
 
@@ -78,7 +78,7 @@ services:
       - "5173:5173"
     volumes:
       - ./:/var/www
-    working_dir: /var/www/Impuls
+    working_dir: /var/www/Vox
     tty: true
     environment:
       - NODE_ENV=development
