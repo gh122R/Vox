@@ -1,18 +1,22 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import FormLayout from "@/Components/FormLayout.vue";
+import Test from "@/Components/NumericInput.vue";
 import {ref} from "vue";
+import NumericInput from "@/Components/NumericInput.vue";
+import PrimaryInput from "@/Components/PrimaryInput.vue";
+import InputError from "@/Components/InputError.vue";
+import PrimarySelect from "@/Components/PrimarySelect.vue";
+
 
 const form = useForm({
     name: '',
     email: '',
+    department_id: '',
     password: '',
-    password_confirmation: '',
-    department_id: ''
+    password_confirmation: ''
 });
 
 const submit = () => {
@@ -21,107 +25,69 @@ const submit = () => {
     });
 };
 
-defineProps({
-    departments: Array
-})
-
-
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Register" />
+    <guest-layout>
+        <div class="min-w-[300px]">
+            <form-layout rounded="rounded-[20px] md:rounded-[50px]">
+                <section class="flex flex-col justify-center items-center mb-[22px]">
+                    <primary-input placeholder="Пётр..." v-model="form.name"
+                                   label="Имя"
+                                   id="name"
+                                   bg="bg-white"
+                                   border="border-[2px] border-voxBlue"
+                                   color="text-black"
+                                   width="w-[190px] md:w-[342px]"
+                                   height="h-[42px] md:h-[52px]"/>
+                    <input-error :message="form.errors.name"/>
+                    <primary-input placeholder="petr@gmail.com" v-model="form.email"
+                                   label="Email"
+                                   id="email"
+                                   bg="bg-white"
+                                   border="border-[2px] border-voxBlue"
+                                   color="text-black"
+                                   width="w-[190px] md:w-[342px]"
+                                   height="h-[42px] md:h-[52px]"
+                                   margin="mt-[24px]"/>
+                    <input-error :message="form.errors.email"/>
+                    <primary-input placeholder="Пётр..." v-model="form.c"
+                                   label="Пароль"
+                                   id="password"
+                                   bg="bg-white"
+                                   border="border-[2px] border-voxBlue"
+                                   color="text-black"
+                                   width="w-[190px] md:w-[342px]"
+                                   height="h-[42px] md:h-[52px]"
+                                   margin="mt-[24px]"/>
+                    <input-error :message="form.errors.password"/>
+                    <primary-input placeholder="Пётр..." v-model="form.password_confirmation"
+                                   label="Подтвердите пароль"
+                                   id="password_confirmation"
+                                   bg="bg-white"
+                                   border="border-[2px] border-voxBlue"
+                                   color="text-black"
+                                   width="w-[190px] md:w-[342px]"
+                                   height="h-[42px] md:h-[52px]"
+                                   margin="mt-[24px]"/>
+                    <input-error :message="form.errors.password_confirmation"/>
+                    <primary-input placeholder="Пётр..." v-model="form.department_id"
+                                   label="Имя"
+                                   id="departmentId"
+                                   bg="bg-white"
+                                   border="border-[2px] border-voxBlue"
+                                   color="text-black"
+                                   width="w-[190px] md:w-[342px]"
+                                   height="h-[42px] md:h-[52px]"
+                                   margin="mt-[24px]"/>
+                    <input-error :message="form.errors.department_id"/>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
-            </div>
-            <select class="rounded-md" name="department_id" v-model="form.department_id">
-                <option disabled value="">Выберите отдел</option>
-                <option v-for="department in departments" :key="department.id" :value="department.id">
-                    {{ department.name }}
-                </option>
-            </select>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+                </section>
+                <primary-select/>
+                <section class="flex justify-center">
+                    <primary-button @click.prevent="submit" width="w-[190px] md:w-[252px]">Зарегистрироваться</primary-button>
+                </section>
+            </form-layout>
+        </div>
+    </guest-layout>
 </template>

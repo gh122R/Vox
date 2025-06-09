@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <div :class="`bg-white h-full w-full p-[30px] shadow-[10px_10px_0px_rgba(0,0,0,0.05)] min-w-[200px] w-[300px] md:w-[500px] ${rounded}`">
+    <div :class="`bg-white h-full w-full p-[30px] shadow-[15px_15px_0px_rgba(0,0,0,0.05)] min-w-[200px] w-[300px] md:w-[500px] ${rounded}`">
         <slot/>
     </div>
 </template>
