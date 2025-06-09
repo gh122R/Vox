@@ -7,16 +7,20 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue',
     ],
 
     theme: {
         extend: {
-            colors:{
-              band: '#f8173e'
-            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                jost: ['Jost', 'sans-serif'],
             },
+            colors:
+
+                {
+                    voxBlue: '#4570FF'
+                }
         },
     },
 

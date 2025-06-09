@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Jost';
+    src: url('/fonts/Jost.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
