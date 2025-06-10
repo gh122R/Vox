@@ -57,6 +57,11 @@ defineProps({
         {
             type: String,
             default: ''
+        },
+    type:
+        {
+            type: String,
+            default: 'text'
         }
 })
 
@@ -78,7 +83,7 @@ function goTo(path)
         <label :for="id" class="font-jost font-medium text-[clamp(14px,1vw,18px)]">{{label}}</label>
         <div class="relative inline-block">
             <div :class="['absolute top-[5px] left-[5px] w-full h-full rounded-[15px] bg-transparent border border-black', width,height]"></div>
-            <input  :id="[id]" @click="goTo(link)" @input="onInput" :placeholder="[placeholder]" :value="modelValue"
+            <input  :id="[id]" @click="goTo(link)" @input="onInput" :placeholder="[placeholder]" :value="modelValue" :type="type"
                     :class="['focus:translate-x-[5px] rounded-[15px] focus:translate-y-[5px] ' +
                          'transition-all duration-150 relative z-10 text-[14px] md:text-[18px] ' +
                          'font-medium md:px-[28px] py-[7px]' +

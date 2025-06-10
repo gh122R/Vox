@@ -21,7 +21,12 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        $departments = Department::all();
+        $departments = Department::all()->map(function ($department) {
+            return [
+                'label' => $department->name,
+                'value' => $department->id,
+            ];
+        });
         return Inertia::render('Auth/Register', ['departments' => $departments]);
     }
 

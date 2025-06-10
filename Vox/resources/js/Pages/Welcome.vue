@@ -3,6 +3,7 @@
 import FormLayout from "@/Components/FormLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
         <div class="items-center px-4">
             <FormLayout rounded="rounded-[20px] md:rounded-[50px]">
               <section class="flex justify-start items-center gap-[18px]">
-                <img class="md:w-auto w-[60px]" src="/svg/logo.svg" alt="Vox logo">
+                <application-logo/>
                 <p class="uppercase md:text-[48px] font-jost text-[28px]">Vox</p>
               </section>
               <section class="flex flex-col items-center">

@@ -19,7 +19,8 @@ export default {
             colors:
 
                 {
-                    voxBlue: '#4570FF'
+                    voxBlue: '#4570FF',
+                    lightGray: '#D9D9D9'
                 }
         },
     },
