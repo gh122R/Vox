@@ -82,7 +82,7 @@ const submit = () => {
                     <primary-button @click="submit" margin="mt-[25px]">Войти</primary-button>
                 </section>
                 <section class="flex justify-center mt-[20px]">
-                    <small class="text-sm">Нет аккаунта? <button class="text-voxBlue" @click.prevent="router.visit('/register')">Регистрация</button></small>
+                    <small class="text-sm">Нет аккаунта? <button class="text-voxBlue" @click.prevent="router.visit(route('register'))">Регистрация</button></small>
                 </section>
             </form-layout>
         </div>

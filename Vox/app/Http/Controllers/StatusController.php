@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StatusResource;
 use App\Models\Status;
 use Illuminate\Http\Request;
 
@@ -9,13 +10,7 @@ class StatusController extends Controller
 {
     public function index()
     {
-        $statuses =  Status::all();
-        return view('status.index', compact('statuses'));
-    }
-
-    public function create()
-    {
-        return view('status.create');
+         return StatusResource::collection(Status::all());
     }
 
     public function store(Request $request)
@@ -23,30 +18,20 @@ class StatusController extends Controller
         $status = Status::create($request->validate([
             'name' => ['required', 'string', 'max:55'],
         ]));
-        return redirect('/statuses/' . $status->id);
-    }
-
-    public function show(Status $status)
-    {
-        return view('status.show', compact('status'));
-    }
-
-    public function edit(Status $status)
-    {
-        return view('status.edit', compact('status'));
+        return new StatusResource($status);
     }
 
     public function update(Request $request, Status $status)
     {
-        $status->update($request->validate([
+         $status->update($request->validate([
             'name' => ['required', 'string', 'max:55'],
         ]));
-        return redirect('/statuses/' . $status->id);
+        return new StatusResource($status);
     }
 
     public function destroy(Status $status)
     {
         $status->delete();
-        return redirect('/statuses');
+        return response()->json(['message' => 'Статус успешно удалён']);
     }
 }

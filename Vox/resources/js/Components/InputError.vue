@@ -1,24 +1,16 @@
 <script setup>
+
 defineProps({
     message: {
         type: String,
     },
-    width:
-        {
-            type: String,
-            default: ''
-        },
-    margin:
-        {
-            type: String,
-            default: ''
-        }
 });
+
 </script>
 
 <template>
-    <div v-show="message" :class="[width, margin]">
-        <p class="text-sm text-red-600">
+    <div v-show="message" class="flex justify-center">
+        <p class="text-[14px] font-thin font-jost text-red-600 py-2 absolute">
             {{ message }}
         </p>
     </div>

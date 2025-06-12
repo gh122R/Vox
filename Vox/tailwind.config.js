@@ -20,7 +20,8 @@ export default {
 
                 {
                     voxBlue: '#4570FF',
-                    lightGray: '#D9D9D9'
+                    lightGray: '#D9D9D9',
+                    bgColor: '#E6E6E6'
                 }
         },
     },

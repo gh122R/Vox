@@ -2,11 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Status;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
-class StatusPolicy
+class RolePolicy
 {
     public function interact(User $user): bool
     {

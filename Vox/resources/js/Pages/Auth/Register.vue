@@ -31,6 +31,7 @@ const submit = () => {
         message.value.warning('Заполните все поля!')
         return
     }
+
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -104,7 +105,7 @@ const submit = () => {
                     <primary-button @click.prevent="submit" width="w-[190px] md:w-[252px]">Зарегистрироваться</primary-button>
                 </section>
                 <section class="flex justify-center mt-[20px]">
-                    <small class="text-sm">Есть аккаунт? <button class="text-voxBlue" @click.prevent="router.visit('/login')">Войти</button></small>
+                    <small class="text-sm">Есть аккаунт? <button class="text-voxBlue" @click.prevent="router.visit(route('login'))">Войти</button></small>
                 </section>
             </form-layout>
         </div>
