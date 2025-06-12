@@ -2,15 +2,13 @@
 
 namespace App\Policies;
 
+use App\Models\Department;
 use App\Models\User;
 
 class DepartmentPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+    public function interact(User $user)
     {
-        //
+        return $user->hasRole('moderator');
     }
 }

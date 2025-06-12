@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+
 
 class RoleController extends Controller
 {
@@ -16,25 +14,27 @@ class RoleController extends Controller
         return RoleResource::collection(Role::all());
     }
 
-    public function store(Request $request)
+    public function show(Role $role)
     {
-        $role = Role::create($request->validate([
-            'name' => ['required', 'string', 'max:70', 'unique:roles,name'],
-        ]));
         return new RoleResource($role);
     }
 
-    public function update(Request $request, Role $role)
+    public function store(RoleRequest $request)
     {
-        $role->update($request->validate([
-            'name' => ['required', 'string', 'max:70', Rule::unique('roles', 'name')->ignore($role)],
-        ]));
+        $role = Role::create($request->validated());
+        return new RoleResource($role);
+    }
+
+    public function update(RoleRequest $request, Role $role)
+    {
+        $role->update($request->validated());
         return new RoleResource($role);
     }
 
     public function destroy(Role $role)
     {
+        $name = $role->name;
         $role->delete();
-        return response()->json(['message' => 'Роль успешно удалена.']);
+        return response()->json(['message' => "Роль $name успешно удалена."]);
     }
 }

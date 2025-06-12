@@ -2,52 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProblemTypeRequest;
+use App\Http\Resources\ProblemTypeResource;
 use App\Models\ProblemType;
-use Illuminate\Http\Request;
 
 class ProblemTypeController extends Controller
 {
     public function index()
     {
-        $problemTypes = ProblemType::all();
-        return view('problemTypes.index', compact('problemTypes'));
+        return ProblemTypeResource::collection(ProblemType::all());
     }
 
-    public function create()
+    public function store(ProblemTypeRequest $request)
     {
-        return view('problemTypes.create');
+        $problemType = ProblemType::create($request->validated());
+        return new ProblemTypeResource($problemType);
     }
 
-    public function store(Request $request)
+    public function show(ProblemType $problemType)
     {
-        $problem = ProblemType::create($request->validate([
-            'name' => ['required', 'string', 'max:155'],
-        ]));
-
-        return redirect('/problem-type/' . $problem->id);
+        return new ProblemTypeResource($problemType);
     }
 
-    public function show(ProblemType $problem)
+    public function update(ProblemTypeRequest $request, ProblemType $problemType)
     {
-        return view('problemTypes.show', compact('problem'));
+        $problemType->update($request->validated());
+        return new ProblemTypeResource($problemType);
     }
 
-    public function edit(ProblemType $problemTypes)
+    public function destroy(ProblemType $problemType)
     {
-        return view('problemTypes.edit', compact('problemTypes'));
-    }
-
-    public function update(Request $request, ProblemType $problem)
-    {
-        $problem->update($request->validate([
-            'name' => ['required', 'string', 'max:155'],
-        ]));
-        return redirect('/problem-type/' . $problem->id);
-    }
-
-    public function destroy(ProblemType $problem)
-    {
-        $problem->delete();
-        return redirect('/problem-types');
+        $name = $problemType->name;
+        $problemType->delete();
+        return response()->json(['message' => "Тип обращения $name удалён"]);
     }
 }

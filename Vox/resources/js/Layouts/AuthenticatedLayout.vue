@@ -17,8 +17,8 @@ defineProps({
 </script>
 
 <template>
-    <div class="h-full bg-bgColor lg:px-4 lg:py-4">
-        <div class="lg:border lg:border-black min-h-screen lg:rounded-[50px]">
+    <div class="min-h-screen bg-bgColor lg:px-4 lg:py-4">
+<!--        <div class="lg:border lg:border-black min-h-screen lg:rounded-[50px]">-->
             <nav>
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto py-[45px] px-[35px] md:px-[55px] lg:px-[85px]">
@@ -139,6 +139,6 @@ defineProps({
             <main>
                 <slot />
             </main>
-        </div>
+<!--        </div>-->
     </div>
 </template>

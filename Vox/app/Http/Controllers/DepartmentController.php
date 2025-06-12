@@ -2,50 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DepartmentRequest;
+use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
-use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
     public function index()
     {
-        return $departments =  Department::all();
+        return DepartmentResource::collection(Department::all());
     }
 
-    public function create()
+    public function store(DepartmentRequest $request)
     {
-        return view('departments.create');
-    }
-
-    public function store(Request $request)
-    {
-        $department=  Department::create(request()->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:departments'],
-        ]));
-        return redirect('/department/' . $department->id);
+        $department = Department::create($request->validated());
+        return new DepartmentResource($department);
     }
 
     public function show(Department $department)
     {
-        return view('departments.show', compact('department'));
+        return new DepartmentResource($department);
     }
 
-    public function edit(Department $department)
+    public function update(DepartmentRequest $request, Department $department)
     {
-        return view('departments.edit', compact('department'));
-    }
-
-    public function update(Request $request, Department $department)
-    {
-        $department->update(request()->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:departments']
-        ]));
-        return redirect('/department/' . $department->id);
+        $department->update($request->validated());
+        return new DepartmentResource($department);
     }
 
     public function destroy(Department $department)
     {
+        $name = $department->name;
         $department->delete();
-        return redirect('/departments');
+        return response()->json(['message' => "Отдел $name успешно удалён."]);
     }
 }

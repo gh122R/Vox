@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StatusRequest;
 use App\Http\Resources\StatusResource;
 use App\Models\Status;
 use Illuminate\Http\Request;
@@ -13,25 +14,27 @@ class StatusController extends Controller
          return StatusResource::collection(Status::all());
     }
 
-    public function store(Request $request)
+    public function show(Status $status)
     {
-        $status = Status::create($request->validate([
-            'name' => ['required', 'string', 'max:55'],
-        ]));
         return new StatusResource($status);
     }
 
-    public function update(Request $request, Status $status)
+    public function store(StatusRequest $request)
     {
-         $status->update($request->validate([
-            'name' => ['required', 'string', 'max:55'],
-        ]));
+        $status = Status::create($request->validated());
+        return new StatusResource($status);
+    }
+
+    public function update(StatusRequest $request, Status $status)
+    {
+         $status->update($request->validated());
         return new StatusResource($status);
     }
 
     public function destroy(Status $status)
     {
+        $name = $status->name;
         $status->delete();
-        return response()->json(['message' => 'Статус успешно удалён']);
+        return response()->json(['message' => "Статус $name успешно удалён"]);
     }
 }
