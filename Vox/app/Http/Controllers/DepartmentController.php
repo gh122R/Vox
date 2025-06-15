@@ -10,13 +10,12 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        return DepartmentResource::collection(Department::all());
+        return DepartmentResource::collection(Department::paginate(15));
     }
 
     public function store(DepartmentRequest $request)
     {
-        $department = Department::create($request->validated());
-        return new DepartmentResource($department);
+        return new DepartmentResource(Department::create($request->validated()));
     }
 
     public function show(Department $department)
@@ -32,8 +31,7 @@ class DepartmentController extends Controller
 
     public function destroy(Department $department)
     {
-        $name = $department->name;
         $department->delete();
-        return response()->json(['message' => "Отдел $name успешно удалён."]);
+        return response(null, 204);
     }
 }

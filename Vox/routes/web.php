@@ -5,15 +5,17 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProblemTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\StatusController;
 use App\Models\Complaint;
 use App\Models\Department;
 use App\Models\ProblemType;
 use App\Models\Role;
+use App\Models\Specialization;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Inertia\Inertia;;
 
 Route::get('/', function ()
 {
@@ -23,7 +25,7 @@ Route::get('/', function ()
     return redirect()->route('dashboard');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     //profile
     Route::get('/profile', [ProfileController::class, 'edit'])
@@ -124,6 +126,28 @@ Route::middleware('auth')->group(function () {
                ->name('destroy');
         });
 
+    //specializations
+    Route::controller(SpecializationController::class)
+        ->prefix('specializations')
+        ->as('specialization.')
+        ->group(function () {
+            Route::get('/','index')
+                ->name('index');
+            Route::post('/','store')
+                ->can('interact', Specialization::class)
+                ->name('store');
+            Route::get('/{specialization}','show')
+                ->can('interact', Specialization::class)
+                ->name('show');
+            Route::patch('/{specialization}','update')
+                ->can('interact', Specialization::class)
+                ->name('update');
+            Route::delete('/{specialization}','destroy')
+                ->can('interact', Specialization::class)
+                ->name('destroy');
+        });
+
+
     //complaints
     Route::controller(ComplaintController::class)
         ->prefix('complaints')
@@ -144,6 +168,7 @@ Route::middleware('auth')->group(function () {
                ->can('destroy', Complaint::class)
                ->name('destroy');
         });
+
 });
 
 

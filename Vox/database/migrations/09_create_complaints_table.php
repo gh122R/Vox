@@ -25,7 +25,6 @@ return new class extends Migration
             $table->text('resolution')->nullable();
             $table->boolean('anonymous')->default(false);
             $table->tinyInteger('feedback_rating')->default(0);
-            $table->json('attachments')->nullable();
             $table->date('deadline')->nullable();
             $table->timestamp('taken_at')->nullable();
             $table->timestamp('resolved_at')->nullable();

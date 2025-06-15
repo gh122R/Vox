@@ -33,8 +33,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        $name = $role->name;
         $role->delete();
-        return response()->json(['message' => "Роль $name успешно удалена."]);
+        return response(null, 204);
     }
 }

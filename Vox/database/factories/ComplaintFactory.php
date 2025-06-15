@@ -29,7 +29,6 @@ class ComplaintFactory extends Factory
             'resolution' => fake()->randomElement([null, fake()->text]),
             'anonymous' => fake()->randomElement([false, true]),
             'feedback_rating' => fake()->randomElement([1,2,3,4,5]),
-            'attachments' => null,
             'deadline' => fake()->randomElement([fake()->date()]),
         ];
     }

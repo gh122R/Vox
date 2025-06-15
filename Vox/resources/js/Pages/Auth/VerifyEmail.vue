@@ -1,8 +1,12 @@
 <script setup>
-import { computed } from 'vue';
+import {computed, watch} from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, router, useForm} from '@inertiajs/vue3';
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import BackgroundWrapper from "@/Components/BackgroundWrapper.vue";
+import DangerButton from "@/Components/DangerButton.vue";
+import {useMessage} from "naive-ui";;
 
 const props = defineProps({
     status: {
@@ -10,52 +14,47 @@ const props = defineProps({
     },
 });
 
+
+const message = useMessage()
+
 const form = useForm({});
 
 const submit = () => {
-    form.post(route('verification.send'));
+    form.post(route('verification.send'), {
+        onSuccess: () => {
+            message.success('Отправлена новая ссылка для подтверждения')
+        }
+    });
 };
 
-const verificationLinkSent = computed(
-    () => props.status === 'verification-link-sent',
-);
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Email Verification" />
+        <Head title="Подтверждение почты" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your
-            email address by clicking on the link we just emailed to you? If you
-            didn't receive the email, we will gladly send you another.
-        </div>
-
-        <div
-            class="mb-4 text-sm font-medium text-green-600"
-            v-if="verificationLinkSent"
-        >
-            A new verification link has been sent to the email address you
-            provided during registration.
-        </div>
-
-        <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Resend Verification Email
-                </PrimaryButton>
-
-                <Link
-                    :href="route('logout')"
-                    method="post"
-                    as="button"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >Log Out</Link
-                >
+        <background-wrapper classes="flex justify-center flex-col p-[35px] w-[350px] md:w-[500px] rounded-[30px] h-[200px]">
+            <div class="mb-4 text-sm">
+                Прежде чем начать, подтвердите свой адрес электронной почты, нажав на ссылку, которую мы только что отправили вам по электронной почте :)
             </div>
-        </form>
+            <div class="flex items-center justify-center gap-10">
+                <form @submit.prevent="submit">
+                        <SecondaryButton
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                        >
+                            Отправить снова
+                        </SecondaryButton>
+
+                </form>
+                    <Link
+                        :href="route('logout')"
+                        method="post"
+                        as="button"
+                    >
+                        <DangerButton>Выйти</DangerButton>
+                    </Link>
+            </div>
+        </background-wrapper>
     </GuestLayout>
 </template>

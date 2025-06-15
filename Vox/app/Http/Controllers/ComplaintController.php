@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ComplaintRequest;
 use App\Http\Resources\ComplaintResource;
 use App\Models\Complaint;
 use Illuminate\Http\Request;
@@ -22,38 +23,25 @@ class ComplaintController extends Controller
             return ComplaintResource::collection(Complaint::where('user_id', $user->id)->paginate(15));
         }
     }
-    public function store(Request $request)
+    public function store(ComplaintRequest $request)
     {
-        Complaint::create($request->validate([
-            'description' => ['required', 'string', 'max:255'],
-            'anonymous'   => ['boolean'],
-            'attachments' => ['array'],
-        ]));
+        return new ComplaintResource(Complaint::create($request->validated()));
     }
 
     public function show(Complaint $complaint)
     {
-        return view('complaint.show', compact('complaint'));
+        return new ComplaintResource($complaint);
     }
 
-    public function edit(Complaint $complaint)
+    public function update(ComplaintRequest $request, Complaint $complaint)
     {
-        return view('complaint.edit', compact('complaint'));
-    }
-
-    public function update(Request $request, Complaint $complaint)
-    {
-        $complaint->update($request->validate([
-            'description' => ['required', 'string', 'max:255'],
-            'anonymous'   => ['boolean'],
-            'attachments' => ['array'],
-        ]));
-        return redirect('/complaint/' . $complaint->id);
+        $complaint->update($request->validated());
+        return new ComplaintResource($complaint);
     }
 
     public function destroy(Complaint $complaint)
     {
         $complaint->delete();
-        return redirect('/myComplaints');
+        return response()->json(null, 204);
     }
 }

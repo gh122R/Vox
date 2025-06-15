@@ -33,8 +33,7 @@ class StatusController extends Controller
 
     public function destroy(Status $status)
     {
-        $name = $status->name;
         $status->delete();
-        return response()->json(['message' => "Статус $name успешно удалён"]);
+        return response(null, 204);
     }
 }

@@ -10,6 +10,8 @@ class Complaint extends Model
 {
     /** @use HasFactory<\Database\Factories\ComplaintFactory> */
     use HasFactory;
+    protected $table = 'complaints';
+    protected $guarded = [];
 
     public function status(): BelongsTo
     {

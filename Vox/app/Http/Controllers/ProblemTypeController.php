@@ -32,8 +32,7 @@ class ProblemTypeController extends Controller
 
     public function destroy(ProblemType $problemType)
     {
-        $name = $problemType->name;
         $problemType->delete();
-        return response()->json(['message' => "Тип обращения $name удалён"]);
+        return response(null, 204);
     }
 }

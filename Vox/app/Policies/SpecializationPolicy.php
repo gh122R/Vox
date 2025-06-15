@@ -2,15 +2,17 @@
 
 namespace App\Policies;
 
+use App\Models\Specialization;
 use App\Models\User;
 
-class ProblemTypePolicy
+class SpecializationPolicy
 {
     /**
      * Create a new policy instance.
      */
+
     public function interact(User $user)
     {
-        return $user->hasRole('moderator');
+        return $user->hasRole('moderator') || $user->hasRole('admin');
     }
 }
