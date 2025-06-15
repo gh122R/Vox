@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {onBeforeUnmount, onMounted, ref} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link, router} from '@inertiajs/vue3';
@@ -12,13 +12,32 @@ defineProps({
         {
             type: String,
             default: ''
+        },
+    pageUrl:
+        {
+            type: String,
+            default: ''
         }
 })
+
+
+onMounted(() => {
+    const page = document.getElementById('page')
+
+    const opacity = () => {
+        setTimeout(() => {
+            page.classList.remove('opacity-0')
+            page.classList.add('opacity-100')
+        }, 50)
+    }
+
+    opacity()
+})
+
 </script>
 
 <template>
     <div class="min-h-screen bg-bgColor lg:px-4 lg:py-4">
-<!--        <div class="lg:border lg:border-black min-h-screen lg:rounded-[50px]">-->
             <nav>
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto py-[45px] px-[35px] md:px-[55px] lg:px-[85px]">
@@ -83,62 +102,61 @@ defineProps({
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{
-                    block: showingNavigationDropdown,
-                    hidden: !showingNavigationDropdown,
-                }"
-                    class="sm:hidden"
-                >
-                    <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <!-- Responsive Settings Options -->
                     <div
-                        class="border-t border-gray-200 pb-1 pt-4"
+                        :class="{
+                        block: showingNavigationDropdown,
+                        hidden: !showingNavigationDropdown,
+                    }"
+                        class="sm:hidden"
                     >
-                        <div class="px-4">
-                            <div
-                                class="text-base font-medium text-gray-800"
+                        <div class="space-y-1 pb-3 pt-2">
+                            <ResponsiveNavLink
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
                             >
-                                {{ $page.props.auth.user.name }}
-                            </div>
-                            <div class="text-sm font-medium text-gray-500">
-                                {{ $page.props.auth.user.email }}
-                            </div>
+                                Мои обращения
+                            </ResponsiveNavLink>
                         </div>
 
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                :href="route('logout')"
-                                method="post"
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
+                        <!-- Responsive Settings Options -->
+                        <div
+                            class="border-t border-gray-200 pb-1 pt-4"
+                        >
+                            <div class="px-4">
+                                <div class="text-base font-medium text-gray-800">
+                                    <span>Имя:</span> {{ $page.props.auth.user.name }}
+                                </div>
+                                <div class="text-sm font-medium text-gray-500">
+                                    <span>Почта:</span> {{ $page.props.auth.user.email }}
+                                </div>
+                            </div>
+
+                            <div class="mt-3 space-y-1">
+                                <ResponsiveNavLink :href="route('profile.edit')">
+                                    Настройки профиля
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    :href="route('logout')"
+                                    method="post"
+                                    as="button"
+                                >
+                                    <span class="text-red-500">Выйти</span>
+                                </ResponsiveNavLink>
+                            </div>
                         </div>
                     </div>
-                </div>
             </nav>
 
-            <div class="mx-[50px] md:mx-[240px] mt-[40px] text-[clamp(18px,4vw,48px)] font-jost border-b border-black">
+            <div class="mx-[30px] md:mx-[100px] lg:mx-[240px] mt-[40px] text-[clamp(24px,4vw,48px)] font-jost border-b border-black">
                 <p>{{header}}</p>
             </div>
 
-
-            <!-- Page Content -->
-            <main>
+            <main id="page" class="opacity-0 transition-opacity duration-500 ease-in">
                 <slot />
             </main>
-<!--        </div>-->
     </div>
 </template>
+
+<style scoped>
+
+</style>

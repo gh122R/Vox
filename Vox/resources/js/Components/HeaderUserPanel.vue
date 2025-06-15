@@ -1,7 +1,9 @@
 <script setup>
 
 import BackgroundWrapper from "@/Components/BackgroundWrapper.vue";
-import {router} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
+
+const user = usePage().props.auth.user;
 </script>
 
 <template>
@@ -14,7 +16,7 @@ import {router} from "@inertiajs/vue3";
                 <img src="/svg/message.svg" alt="Обращения">
             </div>
             <div @click.prevent="router.visit(route('profile.edit'))" class="cursor-pointer hover:translate-x-[2.5px] hover:translate-y-[2.5px] duration-200">
-                <img src="" alt="аватар" class="border border-black rounded-full w-[45px] h-[45px] lg:w-[60px] lg:h-[60px] mr-[45px]">
+                <img :src="`/storage/${user.avatar}`" alt="аватар" class="border object-cover border-black rounded-full w-[45px] h-[45px] lg:w-[60px] lg:h-[60px] mr-[45px]">
             </div>
         </div>
     </BackgroundWrapper>

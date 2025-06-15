@@ -35,20 +35,11 @@ defineProps({
             default: ''
         }
 })
-
-
-
-function goTo(path)
-{
-    if(path) router.visit(path)
-}
-
 </script>
 <template>
     <div :class="['relative inline-block group', margin]">
         <div class="absolute top-[5px] left-[5px] w-full h-full rounded-[15px] bg-transparent border border-black "></div>
-        <button @click="goTo(link)"
-            :class="['group-hover:translate-x-[5px] group-hover:translate-y-[5px] transition-all duration-150 ' +
+        <button :class="['group-hover:translate-x-[5px] group-hover:translate-y-[5px] transition-all duration-150 ' +
                      'relative z-10 text-[14px] md:text-[18px] font-medium text-center md:px-[28px] ' +
                      'py-[7px] rounded-[15px] md:h-[48px] h-[38px]',width,bg,color,border]"
             >

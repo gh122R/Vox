@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $roles = Role::factory(4)->create();
-        Status::factory(4)->create();
+        Status::factory(3)->create();
         ProblemType::factory(4)->create();
         Department::factory(10)->create();
         User::factory(10)->create()->each(function ($user) use ($roles) {

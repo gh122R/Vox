@@ -1,24 +1,34 @@
 <?php
 
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProblemTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
+use App\Models\Complaint;
+use App\Models\Department;
 use App\Models\ProblemType;
 use App\Models\Role;
 use App\Models\Status;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', fn () => Inertia::render('Welcome'));
+Route::get('/', function ()
+{
+    if (!Auth::check()) {
+        return Inertia::render('Welcome');
+    }
+    return redirect()->route('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
 
     //profile
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])
+    Route::match(['patch', 'post'],'/profile', [ProfileController::class, 'update'])
         ->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
@@ -27,21 +37,24 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     //roles
-
     Route::controller(RoleController::class)
         ->prefix('roles')
         ->as('role.')
-        ->can('interact', Role::class)
         ->group(function () {
-            Route::get('/', [RoleController::class, 'index'])
+            Route::get('/','index')
+                ->can('interact', Role::class)
                 ->name('index');
-            Route::post('/', [RoleController::class, 'store'])
+            Route::post('/','store')
+                ->can('interact', Role::class)
                 ->name('store');
-            Route::get('/{role}', [RoleController::class, 'show'])
+            Route::get('/{role}','show')
+                ->can('interact', Role::class)
                 ->name('show');
-            Route::patch('/{role}', [RoleController::class, 'update'])
+            Route::patch('/{role}','update')
+                ->can('interact', Role::class)
                 ->name('update');
-            Route::delete('/{role}', [RoleController::class, 'destroy'])
+            Route::delete('/{role}','destroy')
+                ->can('interact', Role::class)
                 ->name('destroy');
         });
 
@@ -49,17 +62,21 @@ Route::middleware('auth')->group(function () {
     Route::controller(StatusController::class)
         ->prefix('statuses')
         ->as('status.')
-        ->can('interact', Status::class)
         ->group(function () {
             Route::get('/','index')
+                ->can('interact', Status::class)
                 ->name('index');
             Route::post('/','store')
+                ->can('interact', Status::class)
                 ->name('store');
             Route::get('/{status}','show')
+                ->can('interact', Status::class)
                 ->name('show');
             Route::patch('/{status}','update')
+                ->can('interact', Status::class)
                 ->name('update');
             Route::delete('/{status}','destroy')
+                ->can('interact', Status::class)
                 ->name('destroy');
     });
 
@@ -67,17 +84,21 @@ Route::middleware('auth')->group(function () {
     Route::controller(ProblemTypeController::class)
         ->prefix('problem-types')
         ->as('problem-type.')
-        ->can('interact', ProblemType::class)
         ->group(function () {
             Route::get('/','index')
+                ->can('interact', ProblemType::class)
                 ->name('index');
             Route::post('/','store')
+                ->can('interact', ProblemType::class)
                 ->name('store');
             Route::get('/{problemType}','show')
+                ->can('interact', ProblemType::class)
                 ->name('show');
             Route::patch('/{problemType}','update')
+                ->can('interact', ProblemType::class)
                 ->name('update');
             Route::delete('/{problemType}','destroy')
+                ->can('interact', ProblemType::class)
                 ->name('destroy');
         });
 
@@ -87,14 +108,40 @@ Route::middleware('auth')->group(function () {
         ->as('departments.')
         ->group(function () {
            Route::get('/','index')
+               ->can('interact', Department::class)
                ->name('index');
            Route::post('/','store')
+               ->can('interact', Department::class)
                ->name('store');
            Route::get('/{department}','show')
+               ->can('interact', Department::class)
                ->name('show');
            Route::patch('/{department}','update')
+               ->can('interact', Department::class)
                ->name('update');
            Route::delete('/{department}','destroy')
+               ->can('interact', Department::class)
+               ->name('destroy');
+        });
+
+    //complaints
+    Route::controller(ComplaintController::class)
+        ->prefix('complaints')
+        ->as('complaints.')
+        ->group(function () {
+           Route::get('/','index')
+               ->name('index');
+           Route::post('/','store')
+               ->can('create', Complaint::class)
+               ->name('store');
+           Route::get('/{complaint}','show')
+               ->can('viewAny', Complaint::class)
+               ->name('show');
+           Route::patch('/{complaint}','update')
+               ->can('update', Complaint::class)
+               ->name('update');
+           Route::delete('/{complaint}','destroy')
+               ->can('destroy', Complaint::class)
                ->name('destroy');
         });
 });

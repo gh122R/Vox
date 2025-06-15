@@ -16,8 +16,9 @@ class StatusFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->unique(true);
         return [
-            'name' => fake()->unique()->randomElement(['pending', 'approved', 'rejected']),
+            'name' => fake()->randomElement(['pending', 'approved', 'rejected']),
         ];
     }
 }

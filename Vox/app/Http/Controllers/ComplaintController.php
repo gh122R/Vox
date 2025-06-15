@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ComplaintResource;
 use App\Models\Complaint;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,15 +12,16 @@ class ComplaintController extends Controller
 {
     public function index()
     {
-        $complaints = Complaint::where('user_id', Auth::id())->get();
-        return view('complaint.index', compact('complaints'));
+        $user = Auth::user();
+        if($user->can('viewAll', Complaint::class))
+        {
+             return ComplaintResource::collection(Complaint::paginate(15));
+        }
+        else
+        {
+            return ComplaintResource::collection(Complaint::where('user_id', $user->id)->paginate(15));
+        }
     }
-
-    public function create()
-    {
-        return view('complaint.create');
-    }
-
     public function store(Request $request)
     {
         Complaint::create($request->validate([
@@ -28,7 +29,6 @@ class ComplaintController extends Controller
             'anonymous'   => ['boolean'],
             'attachments' => ['array'],
         ]));
-        return redirect()->route('user.complaint');
     }
 
     public function show(Complaint $complaint)

@@ -9,13 +9,28 @@ use Illuminate\Auth\Access\Response;
 class ComplaintPolicy
 {
 
-  /*  public function viewAny(User $user): bool
+    public function viewAll(User $user): bool
     {
-        //
-    }*/
+        return $user->hasRole('admin');
+    }
 
-    public function view(User $user, Complaint $complaint): bool
+    public function viewAny(User $user, Complaint $complaint): bool
     {
-        return $complaint->user->is($user);
+        return $complaint->user->is($user) || $user->hasRole('admin');
+    }
+
+    public function create(User $user, Complaint $complaint): bool
+    {
+        return true;
+    }
+
+    public function update(User $user, Complaint $complaint): bool
+    {
+        return $complaint->user()->is($user) || $user->hasRole('admin') || $user->hasRole('moderator')  ;
+    }
+
+    public function destroy(User $user, Complaint $complaint): bool
+    {
+        return $complaint->user()->is($user) || $user->hasRole('moderator');
     }
 }

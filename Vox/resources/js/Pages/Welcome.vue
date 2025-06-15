@@ -4,6 +4,7 @@ import FormLayout from "@/Components/FormLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import {router} from "@inertiajs/vue3";
 </script>
 
 <template>
@@ -20,18 +21,18 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
               </section>
               <section class="mt-[46px] flex justify-center gap-[10px] md:gap-[25px]">
                 <primary-button
+                    @click="router.visit(route('login'))"
                     width="w-[100px] md:w-[150px]"
-                    link="/login"
                     title="Вход"
                 >
                     Войти
                 </primary-button>
                 <primary-button
+                    @click="router.visit(route('register'))"
                     width="w-[170px] md:w-[252px]"
                     color="text-voxBlue"
                     bg="bg-white"
                     border="border-[2px] border-voxBlue"
-                    link="/register"
                     title="Регистрация"
                   >
                   Зарегистрироваться
