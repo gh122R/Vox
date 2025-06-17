@@ -4,7 +4,7 @@ use App\Models\Complaint;
 use App\Models\Role;
 use App\Models\User;
 
-test('user,who created complaint, can be delete complaint', function () {
+test('user who created complaint can delete it', function () {
     $user = User::factory()->create();
     $complaint = Complaint::factory()->create([
         'user_id' => $user->id,
@@ -12,25 +12,36 @@ test('user,who created complaint, can be delete complaint', function () {
 
     $this->actingAs($user);
 
-    $response = $this->delete("/complaints/$complaint->id");
+    $response = $this->deleteJson("/complaints/$complaint->id");
     $response->assertStatus(204);
 });
 
-test('user,who not created complaint, can be delete complaint', function () {
+test('user who did not create complaint cannot delete it', function () {
     $user = User::factory()->create();
     $complaint = Complaint::factory()->create();
     $this->actingAs($user);
-    $response = $this->delete("/complaints/$complaint->id");
+    $response = $this->deleteJson("/complaints/$complaint->id");
     $response->assertStatus(403);
 });
 
-test('admin,who not created complaint, can be delete complaint', function () {
+test('moderator can delete complaint if not creator', function () {
     $role = Role::factory()->create(['name' => 'moderator']);
     $user = User::factory()->create();
     $user->roles()->attach($role->id);
     $complaint = Complaint::factory()->create();
 
     $this->actingAs($user);
-    $response = $this->delete("/complaints/$complaint->id");
+    $response = $this->deleteJson("/complaints/$complaint->id");
     $response->assertStatus(204);
+});
+
+test('admin cannot delete complaint if not creator', function () {
+    $role = Role::factory()->create(['name' => 'admin']);
+    $user = User::factory()->create();
+    $user->roles()->attach($role->id);
+    $complaint = Complaint::factory()->create();
+
+    $this->actingAs($user);
+    $response = $this->deleteJson("/complaints/$complaint->id");
+    $response->assertStatus(403);
 });

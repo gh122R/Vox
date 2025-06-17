@@ -23,13 +23,26 @@ class ComplaintRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'status_id' => ['required', 'exists:statuses,id'],
-            'problem_type_id' => ['required', 'exists:problem_types,id'],
-            'department_id' => ['required', 'exists:departments,id'],
-            'description' => ['required', 'string', 'max:255'],
+        $rules =  [
+            'status_id' => ['exists:statuses,id'],
+            'problem_type_id' => ['exists:problem_types,id'],
+            'department_id' => ['exists:departments,id'],
+            'description' => ['string', 'max:255'],
+            'resolution' => ['string', 'max:255'],
+            'taken_at' => ['nullable', 'date'],
+            'resolved_at' => ['nullable', 'date'],
             'anonymous'   => ['boolean'],
             'deadline'     => ['date', 'nullable']
         ];
+
+        if($this->isMethod('post'))
+        {
+            $rules['status_id'][] = ['required'];
+            $rules['problem_type_id'][] = 'required';
+            $rules['department_id'][] = 'required';
+            $rules['description'][] = 'required';
+        }
+
+        return $rules;
     }
 }
