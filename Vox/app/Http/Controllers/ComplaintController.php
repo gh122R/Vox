@@ -25,7 +25,9 @@ class ComplaintController extends Controller
     }
     public function store(ComplaintRequest $request)
     {
-        return new ComplaintResource(Complaint::create($request->validated()));
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+        return new ComplaintResource(Complaint::create($data));
     }
 
     public function show(Complaint $complaint)

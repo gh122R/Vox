@@ -19,7 +19,7 @@ class ComplaintPolicy
         return $complaint->user->is($user) || $user->hasRole('admin');
     }
 
-    public function create(User $user, Complaint $complaint): bool
+    public function create(): bool
     {
         return true;
     }
@@ -31,6 +31,6 @@ class ComplaintPolicy
 
     public function destroy(User $user, Complaint $complaint): bool
     {
-        return $complaint->user()->is($user) || $user->hasRole('moderator');
+        return $complaint->user_id === $user->id || $user->hasRole('moderator');
     }
 }

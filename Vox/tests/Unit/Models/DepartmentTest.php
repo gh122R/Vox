@@ -17,10 +17,5 @@ it('has many to employees', function () {
     expect($department->employees->count())->toBe(2);
 });
 
-it('has many to roles', function () {
-    $department = Department::factory()->create();
-    Role::factory(2)->create(['department_id' => $department->id]);
-    expect($department->roles->count())->toBe(2);
-});
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Complaint;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ComplaintRequest extends FormRequest
 {
@@ -23,10 +24,12 @@ class ComplaintRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'status_id' => ['required', 'exists:statuses,id'],
+            'problem_type_id' => ['required', 'exists:problem_types,id'],
+            'department_id' => ['required', 'exists:departments,id'],
             'description' => ['required', 'string', 'max:255'],
             'anonymous'   => ['boolean'],
-            'attachments' => ['array'],
-            'deadline'     => ['date', 'nullable'],
+            'deadline'     => ['date', 'nullable']
         ];
     }
 }
