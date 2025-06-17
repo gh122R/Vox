@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_specializations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(User::class);
-            $table->foreignId(Specialization::class);
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Specialization::class);
             $table->timestamps();
         });
     }

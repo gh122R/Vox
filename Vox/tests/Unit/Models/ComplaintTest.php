@@ -5,6 +5,8 @@ use App\Models\Department;
 use App\Models\ProblemType;
 use App\Models\Status;
 use App\Models\User;
+uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class)->in('Unit');
+
 
 it('belongs to a status', function () {
     $status = Status::factory()->create();
