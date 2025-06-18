@@ -137,7 +137,7 @@ http://localhost:8080
 | **GET**    | `/dashboard`              | Рендер панельки управления       |                                        Аутентифицированный пользователь                                         |
 
 
- Все маршруты, кроме `/` (главная) и `/dashboard`, защищены middleware `auth` и `verified` :).
+ Все маршруты, кроме `/` (главная), защищены middleware `auth` и `verified` :).
 
 
 ---
@@ -158,3 +158,9 @@ docker compose exec php-cli php artisan test
 - Дописать тесты
 - Реализовать real-time обновление ui при изменениях в бд через Laravel WebSockets и Laravel Echo.
 
+
+
+![dashboard](https://github.com/user-attachments/assets/d9cfa091-9ca1-47fe-9bd9-eecdef62d7a5)
+![decisions page](https://github.com/user-attachments/assets/d923aa83-70c0-4b9e-b45c-46a9ecc047ec)
+![dashboard _ create-compaint](https://github.com/user-attachments/assets/00627869-506d-41bd-9d15-7dede730756d)
+![public page](https://github.com/user-attachments/assets/5b5e1cde-792e-4485-a869-360b7153eed5)
